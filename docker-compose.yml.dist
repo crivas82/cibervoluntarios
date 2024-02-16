@@ -1,0 +1,49 @@
+services:
+  php:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+      args:
+        TIMEZONE: ${TIMEZONE}
+    container_name: sf6_cibervoluntarios_php
+    volumes:
+      - .:/var/www/${DOCKERFOLDER}/
+    networks:
+      - symfony
+  nginx:
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
+    container_name: sf6_cibervoluntarios_nginx
+    volumes:
+      - .:/var/www/${DOCKERFOLDER}/
+    ports:
+      - 8081:80
+    networks:
+      - symfony
+
+  db:
+      build:
+        context: .
+        dockerfile: docker/db/Dockerfile
+      container_name: sf6_cibervoluntarios_mariadb
+      restart: always
+      volumes:
+        - ./docker/db/data:/var/lib/mysql
+      environment:
+        MYSQL_ROOT_PASSWORD: 'root'
+        MYSQL_USER: ${MYSQL_USER}
+        MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+        MYSQL_DATABASE: ${MYSQL_DATABASE_ORDERS}
+      ports:
+        - 3306:3306
+      networks:
+        - symfony
+
+networks:
+  symfony:
+
+volumes:
+###> doctrine/doctrine-bundle ###
+  database_data:
+###< doctrine/doctrine-bundle ###
