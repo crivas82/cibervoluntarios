@@ -1,52 +1,130 @@
-# Cache and logs (Symfony2)
-/app/cache/*
-/app/logs/*
-!app/cache/.gitkeep
-!app/logs/.gitkeep
+#--------------------------------#
+### Generic cache operative systems
+#--------------------------------#
+# Windows
+Desktop.ini
+Thumbs.db
+$RECYCLE.BIN
+*.lnk
 
-# Email spool folder
-/app/spool/*
+# MacOS
+__MACOSX
+.DS_Store
+.AppleDouble
+.LSOverride
+.DocumentRevisions*
+.fseventsd
+.Spotlight*
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
 
-# Cache, session files and logs (Symfony3)
-/var/cache/*
-/var/logs/*
-/var/sessions/*
-!var/cache/.gitkeep
-!var/logs/.gitkeep
-!var/sessions/.gitkeep
+#--------------------------------#
+### Backups, logs, etc
+#--------------------------------#
+*.tgz
+*.log
 
-# Logs (Symfony4)
-/var/log/*
-!var/log/.gitkeep
+#--------------------------------#
+### JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio
+#--------------------------------#
+*.iml
+.idea/
+*.ipr
+*.iws
 
-# Parameters
-/app/config/parameters.yml
-/app/config/parameters.ini
+#--------------------------------#
+## Config quality code
+#--------------------------------#
+.eslintrc.js
+.php-cs-fixer.php
+.phpcs.xml
+.prettierrc
+.phpstan.neon
+.psalm.xml
+.rector.php
+.eslintcache
+.php-cs-fixer.cache
+.phpcs-cache
+.gherkin-lintrc
 
-# Managed by Composer
-/app/bootstrap.php.cache
-/var/bootstrap.php.cache
-/bin/*
-!bin/console
-!bin/symfony_requirements
+#--------------------------------#
+# Symfony
+#--------------------------------#
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
 /vendor/
+/docker/mysql/data
+.idea
+composer.lock
+/symfony.lock
+###< symfony/framework-bundle ###
 
-# Assets and user uploads
-/web/bundles/
-/web/uploads/
+/.docker/environment_configs_container/RrhhApp/.env.rrhhaap.local
 
-# PHPUnit
-/app/phpunit.xml
+### Docker
+.docker/docker-compose.yaml
+
+### PHPUnit / Testing
+.phpunit
+.phpunit.result.cache
+/.phpunit.cache/
+phpunit.xml
+behat.yaml
+
+### Enviorements Parameters
+.env.local
+.env.local.php
+.env.*.local
+
+### Composer Shared Tools
+/.tools/bin/
+/.tools/vendor/
+
+
+### Var: Cache, logs, spool, sessions
+/app/*/*/var/cache/*
+/app/*/*/var/log/*
+/app/*/*/var/sessions/*
+/app/*/*/var/spool/*
+!/app/*/*/var/cache/.gitkeep
+!/app/*/*/var/log/.gitkeep
+!/app/*/*/var/sessions/.gitkeep
+!/app/*/*/var/spool/.gitkeep
+
+### Assets and user uploads
+/app/*/*/public/assets/
+/app/*/*/public/builds/
+/app/*/*/public/build/
+/app/*/*/*/public/bundles/
+/app/*/*/public/uploads/
+/app/*/*/public/media/
+
+### Builds
+/app/*/*/build/
+/build
+
+### Others
+/app/*/fixtures/
+
+###> friends-of-behat/symfony-extension ###
+/behat.yml
+###< friends-of-behat/symfony-extension ###
+
+###> phpunit/phpunit ###
 /phpunit.xml
-
-# Build data
-/build/
-
-# Composer PHAR
-/composer.phar
-
-# Backup entities generated with doctrine:generate:entities command
-**/Entity/*~
-
-# Embedded web-server pid file
-/.web-server-pid
+.phpunit.result.cache
+###< phpunit/phpunit ###
+/app/*/*/var/cache/.gitkeep
+/app/*/*/var/log/.gitkeep
