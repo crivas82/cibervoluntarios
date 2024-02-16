@@ -34,7 +34,7 @@ services:
         MYSQL_ROOT_PASSWORD: 'root'
         MYSQL_USER: ${MYSQL_USER}
         MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-        MYSQL_DATABASE: ${MYSQL_DATABASE_ORDERS}
+        MYSQL_DATABASE: ${MYSQL_DATABASE_APP}
       ports:
         - 3306:3306
       networks:
