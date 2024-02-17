@@ -44,11 +44,11 @@ class Pizza
     #[ORM\Column]
     public \DateTimeImmutable $createdAt;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     public \DateTime $updatedAt;
 
     #[ORM\Column]
-    public bool $special;
+    public bool $special = false;
 
     public function getId(): ?int
     {
@@ -109,7 +109,7 @@ class Pizza
     #[ORM\PreUpdate]
     public function setUpdatedAt(): void
     {
-        $this->updatedAt = new \DateTime();
+        $this->updatedAt = new \DateTime('now');
     }
 
     public function isSpecial(): bool
@@ -119,6 +119,8 @@ class Pizza
 
     public function setSpecial(bool $special): void
     {
-        $this->special = $special;
+        if(is_null($this->id) or empty($this->special)) {
+            $this->special = $special;
+        }
     }
 }

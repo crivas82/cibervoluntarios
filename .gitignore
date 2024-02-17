@@ -128,3 +128,9 @@ behat.yaml
 ###< phpunit/phpunit ###
 /app/*/*/var/cache/.gitkeep
 /app/*/*/var/log/.gitkeep
+
+###> symfony/phpunit-bridge ###
+.phpunit.result.cache
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+/bin/phpunit
