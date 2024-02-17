@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity]
+#[ORM\HasLifecycleCallbacks]
 #[ApiResource]
 class Pizza
 {
@@ -41,7 +42,7 @@ class Pizza
     public int $ovenTimeInSeconds;
 
     #[ORM\Column]
-    public \DateTime $createdAt;
+    public \DateTimeImmutable $createdAt;
 
     #[ORM\Column]
     public \DateTime $updatedAt;
@@ -49,4 +50,75 @@ class Pizza
     #[ORM\Column]
     public bool $special;
 
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function setId(?int $id): void
+    {
+        $this->id = $id;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    public function getIngredients(): array
+    {
+        return $this->ingredients;
+    }
+
+    public function setIngredients(array $ingredients): void
+    {
+        $this->ingredients = $ingredients;
+    }
+
+    public function getOvenTimeInSeconds(): int
+    {
+        return $this->ovenTimeInSeconds;
+    }
+
+    public function setOvenTimeInSeconds(int $ovenTimeInSeconds): void
+    {
+        $this->ovenTimeInSeconds = $ovenTimeInSeconds;
+    }
+
+    public function getCreatedAt(): \DateTime
+    {
+        return $this->createdAt;
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAt(): void
+    {
+        $this->createdAt = new \DateTimeImmutable();;
+    }
+
+    public function getUpdatedAt(): \DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdatedAt(): void
+    {
+        $this->updatedAt = new \DateTime();
+    }
+
+    public function isSpecial(): bool
+    {
+        return $this->special;
+    }
+
+    public function setSpecial(bool $special): void
+    {
+        $this->special = $special;
+    }
 }
