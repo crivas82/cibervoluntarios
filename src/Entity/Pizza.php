@@ -90,7 +90,7 @@ class Pizza
         $this->ovenTimeInSeconds = $ovenTimeInSeconds;
     }
 
-    public function getCreatedAt(): \DateTime
+    public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
     }
@@ -98,7 +98,7 @@ class Pizza
     #[ORM\PrePersist]
     public function setCreatedAt(): void
     {
-        $this->createdAt = new \DateTimeImmutable();;
+        $this->createdAt = new \DateTimeImmutable();
     }
 
     public function getUpdatedAt(): \DateTime
