@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity]
@@ -19,17 +18,19 @@ class Pizza
      * A name property - this description will be available in the API documentation too.
      *
      */
-    #[ORM\Column]
+    #[ORM\Column(type: "string", length: 48, nullable: false)]
     #[Assert\NotNull]
     #[Assert\NotBlank]
+    #[Assert\Type('string')]
     #[Assert\Length(
         max: 48,
         maxMessage: 'Your pizza name cannot be longer than {{ limit }} characters',
     )]
     public string $name = '';
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: false)]
     #[Assert\NotNull]
+    #[Assert\Type('array')]
     #[Assert\Count(
         min: 1,
         max: 20,
@@ -38,16 +39,20 @@ class Pizza
     )]
     public array $ingredients = array();
 
-    #[ORM\Column]
+    #[ORM\Column(type: "integer",)]
+    #[Assert\Type('numeric')]
     public int $ovenTimeInSeconds;
 
-    #[ORM\Column]
+    #[ORM\Column(type: "datetime_immutable", nullable: false)]
+    #[Assert\NotNull]
     public \DateTimeImmutable $createdAt;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(type: "datetime", nullable: true)]
     public \DateTime $updatedAt;
 
-    #[ORM\Column]
+    #[ORM\Column(type: "boolean", nullable: false, options: ["default" => false])]
+    #[Assert\NotNull]
+    #[Assert\Type('boolean')]
     public bool $special = false;
 
     public function getId(): ?int

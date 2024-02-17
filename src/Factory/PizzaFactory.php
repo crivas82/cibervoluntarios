@@ -32,7 +32,6 @@ final class PizzaFactory extends ModelFactory
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services
      *
-     * @todo inject services if required
      */
     public function __construct()
     {
@@ -42,7 +41,6 @@ final class PizzaFactory extends ModelFactory
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#model-factories
      *
-     * @todo add your default values here
      */
     protected function getDefaults(): array
     {
@@ -57,11 +55,7 @@ final class PizzaFactory extends ModelFactory
         ];
 
 
-        $createdDate = \DateTimeImmutable::createFromMutable(self::faker()->dateTime());
-        $updatedDate = \DateTime::createFromImmutable( $createdDate);
-
         return [
-            //'createdAt' => $createdDate,
             'ingredients' => array_merge(['mozzarella'], self::faker()->randomElements($arrayIngredients, random_int(1,19), false)),
             'name' => 'Pizza '.self::faker()->text(42),
             'ovenTimeInSeconds' => random_int(600, 1800),
