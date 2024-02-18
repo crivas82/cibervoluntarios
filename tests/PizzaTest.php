@@ -13,6 +13,9 @@ class PizzaTest extends ApiTestCase
 {
     // This trait provided by Foundry will take care of refreshing the database content to a known state before each test
     use ResetDatabase, Factories;
+    private static $baseURL = '/api';
+
+
 
     public function testGetCollection(): void
     {
@@ -21,7 +24,7 @@ class PizzaTest extends ApiTestCase
         PizzaFactory::createMany($numberPizzas);
 
         // The client implements Symfony HttpClient's `HttpClientInterface`, and the response `ResponseInterface`
-        $response = static::createClient()->request('GET', '/api/pizzas');
+        $response = static::createClient()->request('GET', self::$baseURL.'/pizzas');
 
         $this->assertResponseIsSuccessful();
         // Asserts that the returned content type is JSON-LD (the default)
@@ -51,14 +54,14 @@ class PizzaTest extends ApiTestCase
     }
 
 
+
     public function testCreatePizza(): void
     {
         $headers = [
             'Content-Type' => 'application/ld+json',
         ];
 
-
-        $response = static::createClient()->request('POST', '/api/pizzas', [
+        $response = static::createClient()->request('POST', self::$baseURL.'/pizzas', [
                 'json' => [
                     "name" => "Pizza Test Cibervoluntarios",
                     "ingredients" => ["mozzarella","tomato","salami"],
@@ -78,9 +81,11 @@ class PizzaTest extends ApiTestCase
             "ovenTimeInSeconds" => 1200,
             "special" => true
         ]);
-        $this->assertMatchesRegularExpression('~^/api/pizzas/\d+$~', $response->toArray()['@id']);
+        $this->assertMatchesRegularExpression('~^'.self::$baseURL.'/pizzas/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Pizza::class);
     }
+
+
 
     public function testCreateInvalidPizza(): void
     {
@@ -89,7 +94,7 @@ class PizzaTest extends ApiTestCase
             'Content-Type' => 'application/ld+json',
         ];
 
-        static::createClient()->request('POST', '/api/pizzas', [
+        static::createClient()->request('POST', self::$baseURL.'/pizzas', [
             'json' => [
                 "ingredients" => [],
             ],
@@ -139,6 +144,8 @@ class PizzaTest extends ApiTestCase
         $this->assertNotNull($response->toArray()['updatedAt']);
     }
 
+
+
     public function testDeletePizza(): void
     {
         // Only create the pizza we need with a name, ingredients, ...
@@ -159,4 +166,6 @@ class PizzaTest extends ApiTestCase
             static::getContainer()->get('doctrine')->getRepository(Pizza::class)->findOneBy(["name" => "Pizza Test Cibervoluntarios"])
         );
     }
+
+
 }
