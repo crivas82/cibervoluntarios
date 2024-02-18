@@ -60,7 +60,6 @@ final class PizzaFactory extends ModelFactory
             'name' => 'Pizza '.self::faker()->text(42),
             'ovenTimeInSeconds' => random_int(600, 1800),
             'special' => self::faker()->boolean(),
-            'updatedAt' => new \DateTime('now')
         ];
     }
 
