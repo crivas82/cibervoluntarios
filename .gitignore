@@ -74,7 +74,7 @@ composer.lock
 /.docker/environment_configs_container/RrhhApp/.env.rrhhaap.local
 
 ### Docker
-.docker/docker-compose.yml
+docker-compose.yml
 
 ### PHPUnit / Testing
 .phpunit
