@@ -79,6 +79,9 @@ composer-install: ## Install composer dependencies
 update-database-schema: ## Update database schema
 	${RUN_DOCKER_WITH_USER} -i ${DOCKER_CIBERVOLUNTARIOS_APP} bash -c "cd /var/www/cibervoluntarios && php bin/console doctrine:schema:update --force --no-interaction"
 
+load-fixtures-data: ## Load fixtures data
+	${RUN_DOCKER_WITH_USER} -i ${DOCKER_CIBERVOLUNTARIOS_APP} bash -c "cd /var/www/cibervoluntarios && php bin/console doctrine:fixtures:load --no-interaction"
+
 cache-clear: ## Clear symfony cache
 	${RUN_DOCKER_TTY} ${DOCKER_CIBERVOLUNTARIOS_APP} php bin/console cache:clear
 
