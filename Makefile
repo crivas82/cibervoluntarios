@@ -54,7 +54,6 @@ RUN_DOCKER_TTY = ${RUN_DOCKER_WITH_USER} -it
 init-project: ## Start the containers
 	'$(MAKE)' start
 	'$(MAKE)' composer-install
-	${RUN_DOCKER_WITH_USER} -i ${DOCKER_CIBERVOLUNTARIOS_APP} bash -c "cd /var/www/cibervoluntarios && php bin/console doctrine:schema:create --no-interaction"
 
 start: ## Start the containers
 	${RUN_FROM_DOCKER_PATH} cp -n docker-compose.yml.dist docker-compose.yml || true
