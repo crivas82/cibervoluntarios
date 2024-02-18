@@ -45,7 +45,7 @@ class Pizza
     )]
     public array $ingredients = array();
 
-    #[ORM\Column(type: "integer",)]
+    #[ORM\Column(type: "integer")]
     #[Assert\Type('numeric')]
     public int $ovenTimeInSeconds;
 
@@ -63,7 +63,8 @@ class Pizza
 
     public function __construct()
     {
-        $this->createdAt = new \DateTimeImmutable();
+        $this->setCreatedAt();
+        $this->setUpdatedAt();
     }
 
     public function getId(): ?int
@@ -123,6 +124,7 @@ class Pizza
     }
 
     #[ORM\PreUpdate]
+    #[ORM\PrePersist]
     public function setUpdatedAt(): void
     {
         $this->updatedAt = new \DateTime('now');
@@ -135,8 +137,13 @@ class Pizza
 
     public function setSpecial(bool $special): void
     {
-        if(is_null($this->id) or empty($this->special)) {
+        if($this->checkIfNewObject()) {
             $this->special = $special;
         }
+    }
+
+    private function checkIfNewObject(): bool
+    {
+        return (is_null($this->id) or empty($this->id));
     }
 }
