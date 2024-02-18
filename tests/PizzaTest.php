@@ -68,7 +68,6 @@ class PizzaTest extends ApiTestCase
                 'headers' => $headers
             ]);
 
-
         $this->assertResponseStatusCodeSame(201);
         $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
         $this->assertJsonContains([
@@ -82,7 +81,6 @@ class PizzaTest extends ApiTestCase
         $this->assertMatchesRegularExpression('~^/api/pizzas/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(Pizza::class);
     }
-
 
     public function testCreateInvalidPizza(): void
     {
@@ -108,7 +106,6 @@ class PizzaTest extends ApiTestCase
             "hydra:description" => "name: This value should not be blank.\ningredients: You must specify at least one ingredient",
         ]);
     }
-
 
     public function testUpdatePizza(): void
     {

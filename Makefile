@@ -45,10 +45,34 @@ DOCKER_SHARED_MOCKSERVER = shared_mockserver
 DOCKER_CIBERVOLUNTARIOS_APP = sf6_cibervoluntarios_php
 
 # Docker Paths
-DOCKER_PATH           = .docker/
+DOCKER_PATH           = ./
 RUN_FROM_DOCKER_PATH = cd ${DOCKER_PATH} &&
 RUN_DOCKER_WITH_USER = U_ID=${UID} docker exec --user ${UID}
+RUN_DOCKER_TTY = ${RUN_DOCKER_WITH_USER} -it
 
-composer-install: ## Installs composer dependencies
+start: ## Start the containers
+	${RUN_FROM_DOCKER_PATH} cp -n docker-compose.yml.dist docker-compose.yml || true
+	docker-compose  -f docker-compose.yml -p cibervoluntarios up -d
+
+stop: ## Stop the containers
+	docker-compose -f docker-compose.yml stop
+
+destroy: ##Remove containers
+	${RUN_FROM_DOCKER_PATH} U_ID=${UID} docker-compose -f docker-compose.yml down
+
+restart: ## Restart the containers
+	'$(MAKE)' stop && '$(MAKE)' start
+
+build: ## Rebuild all the containers
+	${RUN_FROM_DOCKER_PATH} cp -n docker-compose.yml.dist docker-compose.yml || true
+	${RUN_FROM_DOCKER_PATH} U_ID=${UID} docker-compose -f docker-compose.yml build
+
+composer-install: ## Install composer dependencies
 	${RUN_DOCKER_WITH_USER} -i ${DOCKER_CIBERVOLUNTARIOS_APP} bash -c "cd /var/www/cibervoluntarios && composer install --no-interaction"
+
+cache-clear: ## Clear symfony cache
+	${RUN_DOCKER_TTY} ${DOCKER_CIBERVOLUNTARIOS_APP} php bin/console cache:clear
+
+run-tests: ## Run Unit Tests
+	${RUN_DOCKER_TTY} ${DOCKER_CIBERVOLUNTARIOS_APP} bash -c "cd /var/www/cibervoluntarios && vendor/bin/phpunit --testsuite cibervoluntarios_pizza_tests"
 
