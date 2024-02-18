@@ -50,6 +50,12 @@ RUN_FROM_DOCKER_PATH = cd ${DOCKER_PATH} &&
 RUN_DOCKER_WITH_USER = U_ID=${UID} docker exec --user ${UID}
 RUN_DOCKER_TTY = ${RUN_DOCKER_WITH_USER} -it
 
+
+init-project: ## Start the containers
+	'$(MAKE)' start
+	'$(MAKE)' composer-install
+	${RUN_DOCKER_WITH_USER} -i ${DOCKER_CIBERVOLUNTARIOS_APP} bash -c "cd /var/www/cibervoluntarios && php bin/console doctrine:schema:create --no-interaction"
+
 start: ## Start the containers
 	${RUN_FROM_DOCKER_PATH} cp -n docker-compose.yml.dist docker-compose.yml || true
 	docker-compose  -f docker-compose.yml -p cibervoluntarios up -d
@@ -59,6 +65,7 @@ stop: ## Stop the containers
 
 destroy: ##Remove containers
 	${RUN_FROM_DOCKER_PATH} U_ID=${UID} docker-compose -f docker-compose.yml down
+	${RUN_FROM_DOCKER_PATH} rm -f docker-compose.yml || true
 
 restart: ## Restart the containers
 	'$(MAKE)' stop && '$(MAKE)' start
@@ -69,6 +76,9 @@ build: ## Rebuild all the containers
 
 composer-install: ## Install composer dependencies
 	${RUN_DOCKER_WITH_USER} -i ${DOCKER_CIBERVOLUNTARIOS_APP} bash -c "cd /var/www/cibervoluntarios && composer install --no-interaction"
+
+update-database-schema: ## Update database schema
+	${RUN_DOCKER_WITH_USER} -i ${DOCKER_CIBERVOLUNTARIOS_APP} bash -c "cd /var/www/cibervoluntarios && php bin/console doctrine:schema:update --force --no-interaction"
 
 cache-clear: ## Clear symfony cache
 	${RUN_DOCKER_TTY} ${DOCKER_CIBERVOLUNTARIOS_APP} php bin/console cache:clear
