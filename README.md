@@ -48,7 +48,14 @@ En la carpeta del proyecto para levantar los contenedores docker ejecutar los si
 
 ```bash
    make init-project
+   make update-database-schema
+   make load-fixtures-data
 ```
+
+Tras crear los contenedores e instalar las dependencias, si abrimos el navegador y ponemos la siguiente url
+
+http://localhost:8081/api
+
 En el Makefile hay muchas más operaciones para facilitar las laborales 
 y no tener que estar entrando en los contenedores como:
 
@@ -71,9 +78,26 @@ Para instalar las dependencias de composer:
 ```bash
    make composer-install
 ```
-Tras crear los contenedores e instalar las dependencias, si abrimos el navegador y ponemos la siguiente url
 
-http://localhost:8081/api
+Para actualizar esquema de la BD:
+```bash
+   make update-database-schema
+```
+
+Para cargar datos de prueba:
+```bash
+   make load-fixtures-data
+```
+
+Para limpiar la cache de symfony:
+```bash
+   make cache-clear
+```
+
+Para ejecutar los tests:
+```bash
+   make run-tests
+```
 
 ## Documentación
 ApiPlatform genera la documentación de la API creada que está en la siguiente URL.
